@@ -17,8 +17,6 @@ public class MailSenderImpl implements MailSender {
 
     private final JavaMailSender mailSender;
 
-    private final EmailMessageService emailMessageService;
-
     @Override
     public void sendEmail(EmailMessageDto emailMessageDto) {
         log.info("Sending email message {}", emailMessageDto);
