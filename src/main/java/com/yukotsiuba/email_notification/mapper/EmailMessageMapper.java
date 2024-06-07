@@ -2,12 +2,8 @@ package com.yukotsiuba.email_notification.mapper;
 
 import com.yukotsiuba.email_notification.dto.EmailMessageDto;
 import com.yukotsiuba.email_notification.entity.EmailMessage;
-import com.yukotsiuba.email_notification.entity.EmailStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 public class EmailMessageMapper {
 
