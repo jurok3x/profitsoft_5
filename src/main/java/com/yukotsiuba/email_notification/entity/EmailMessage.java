@@ -36,4 +36,8 @@ public class EmailMessage {
 
     @Field(type = FieldType.Keyword)
     private EmailStatus status;
+
+    public void increaseAttempts() {
+        attempts = (attempts == null) ? 1 : attempts + 1;
+    }
 }
