@@ -9,7 +9,6 @@ import com.yukotsiuba.email_notification.entity.EmailMessage;
 import com.yukotsiuba.email_notification.entity.EmailStatus;
 import com.yukotsiuba.email_notification.repository.EmailMessageRepository;
 import com.yukotsiuba.email_notification.service.EmailMessageService;
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +22,6 @@ import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
