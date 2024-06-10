@@ -7,6 +7,7 @@ import org.apache.kafka.common.serialization.Deserializer;
 public class EmailMessageDeserializer implements Deserializer<EmailMessageDto> {
 
     private ObjectMapper objectMapper = new ObjectMapper();//todo add bean
+
     @Override
     public EmailMessageDto deserialize(String topic, byte[] bytes) {
         try {

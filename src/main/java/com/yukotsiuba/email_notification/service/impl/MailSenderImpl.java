@@ -2,7 +2,6 @@ package com.yukotsiuba.email_notification.service.impl;
 
 import com.yukotsiuba.email_notification.dto.EmailMessageDto;
 import com.yukotsiuba.email_notification.mapper.EmailMessageMapper;
-import com.yukotsiuba.email_notification.service.EmailMessageService;
 import com.yukotsiuba.email_notification.service.MailSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

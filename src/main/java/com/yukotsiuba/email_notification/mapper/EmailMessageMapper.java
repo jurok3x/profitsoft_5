@@ -20,7 +20,7 @@ public class EmailMessageMapper {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(messageDto.getTo());
         message.setSubject(messageDto.getSubject());
-        message.setText(messageDto.getText());
+        message.setText(messageDto.getContent());
         message.setFrom(emailAddress);
 
         return message;
@@ -34,7 +34,7 @@ public class EmailMessageMapper {
         return EmailMessageDto.builder()
                 .subject(message.getSubject())
                 .to(message.getTo())
-                .text(message.getContent())
+                .content(message.getContent())
                 .build();
     }
 
@@ -45,7 +45,7 @@ public class EmailMessageMapper {
 
         return EmailMessage.builder()
                 .to(messageDto.getTo())
-                .content(messageDto.getText())
+                .content(messageDto.getContent())
                 .subject(messageDto.getSubject())
                 .build();
     }
