@@ -1,7 +1,6 @@
 package com.yukotsiuba.email_notification.config;
 
 import com.yukotsiuba.email_notification.dto.EmailMessageDto;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;

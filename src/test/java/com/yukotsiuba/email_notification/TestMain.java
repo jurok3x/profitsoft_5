@@ -1,6 +1,7 @@
 package com.yukotsiuba.email_notification;
 
 import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.GreenMailUtil;
 import com.yukotsiuba.email_notification.config.KafkaProducerTestConfig;
 import com.yukotsiuba.email_notification.config.KafkaTopicTestConfig;
 import com.yukotsiuba.email_notification.config.TestEmailConfig;
@@ -24,6 +25,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.after;
@@ -37,6 +39,12 @@ public class TestMain {
 
     @Value("${kafka.topic.article}")
     private String articleTopic;
+
+    @Value("${spring.mail.username}")
+    private String emailUsername;
+
+    @Value("${spring.mail.password}")
+    private String emailPassword;
 
     @Autowired
     KafkaOperations<String, EmailMessageDto> kafkaOperations;
@@ -61,27 +69,43 @@ public class TestMain {
     }
 
     @Test
-    void integrationTest() throws Exception {
+    void test_sendEmailAndStoreResult() throws Exception {
         EmailMessageDto messageDto = prepareMessage();
+        greenMail.setUser(emailUsername, emailPassword);
         kafkaOperations.send(articleTopic, messageDto);
         verify(service, after(5000)).handleMessageReceived(any());
 
         //Verify that mail is sent
         greenMail.waitForIncomingEmail(1);
         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-        assertTrue(receivedMessages.length == 1);
+        assertThat(receivedMessages).hasSize(1);
         MimeMessage receivedMessage = receivedMessages[0];
-        assertEquals(messageDto.getContent(), receivedMessage.getContent().toString());
+        String body = GreenMailUtil.getBody(receivedMessage);
+        assertEquals(messageDto.getContent(), body);
         assertEquals(messageDto.getSubject(), receivedMessage.getSubject());
 
-        //Verify that receivedMessage stored in ES
+        //Verify that received message stored in ES
         List<EmailMessage> messages = emailMessageRepository.findByStatus(EmailStatus.SENT);
         assertFalse(messages.isEmpty());
     }
 
+    @Test
+    void test_failSendingEmail() throws Exception {
+        EmailMessageDto messageDto = prepareMessage();
+        greenMail.setUser(emailUsername, "wrong_password");
+        kafkaOperations.send(articleTopic, messageDto);
+        verify(service, after(5000)).handleMessageReceived(any());
+
+        //Verify that error message stored in ES
+        List<EmailMessage> messages = emailMessageRepository.findByStatus(EmailStatus.ERROR);
+        assertFalse(messages.isEmpty());
+        EmailMessage emailMessage = messages.get(0);
+        assertNotNull(emailMessage.getErrorMessage());
+    }
+
     private EmailMessageDto prepareMessage() {
         return EmailMessageDto.builder()
-                .content("Congratulations you have published article Top IT News New.")
+                .content("Congratulations you have published article Top IT News.")
                 .to("test@example.com")
                 .subject("New Article")
                 .build();
