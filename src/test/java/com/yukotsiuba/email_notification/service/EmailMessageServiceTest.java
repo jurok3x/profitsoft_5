@@ -76,7 +76,7 @@ class EmailMessageServiceTest {
 
     private EmailMessageDto prepareMessageDto() {
         return EmailMessageDto.builder()
-                .content("Congratulations you have published article Top IT News.")
+                .text("Congratulations you have published article Top IT News.")
                 .to("test@example.com")
                 .subject("New Article")
                 .build();
