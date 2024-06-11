@@ -1,5 +1,6 @@
 # Email notifications service
 Application for sending emails to authors who posted new article in Article app.
+For simplicity added jar of previous project.
 ## Set-up
 1. First create an account in https://mailtrap.io/ and specify your credentials to docker-compose.yaml in order to enable mail sending.
 2.  Run:
