@@ -81,7 +81,7 @@ public class TestMain {
         assertThat(receivedMessages).hasSize(1);
         MimeMessage receivedMessage = receivedMessages[0];
         String body = GreenMailUtil.getBody(receivedMessage);
-        assertEquals(messageDto.getContent(), body);
+        assertEquals(messageDto.getText(), body);
         assertEquals(messageDto.getSubject(), receivedMessage.getSubject());
 
         //Verify that received message stored in ES
@@ -105,7 +105,7 @@ public class TestMain {
 
     private EmailMessageDto prepareMessage() {
         return EmailMessageDto.builder()
-                .content("Congratulations you have published article Top IT News.")
+                .text("Congratulations you have published article Top IT News.")
                 .to("test@example.com")
                 .subject("New Article")
                 .build();
